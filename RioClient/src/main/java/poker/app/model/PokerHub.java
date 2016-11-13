@@ -50,16 +50,25 @@ public class PokerHub extends Hub {
 	protected void messageReceived(int ClientID, Object message) {
 
 		if (message instanceof Action) {
+			Action act = (Action)message;
+			if (act.getAction()==eAction.StartGame){
+				GamePlay g = new GamePlay(new Rule(act.geteGame()), null);
+				//finish dealer first
+			}
+			
 			
 			//TODO: If the Action = StartGame, start the game...
 			//		Create an instance of GamePlay, set all the parameters
 			
-			//TODO: If Action = Sit, add the player to the table
+			else if(act.getAction()==eAction.Sit){
+				HubPokerTable.AddPlayerToTable(act.getPlayer());
+				sendToAll(HubPokerTable);
+			}
+			else if(act.getAction()==eAction.Leave){
+				HubPokerTable.RemovePlayerFromTable(act.getPlayer());
+				sendToAll(HubPokerTable);
+			}
 			
-			//TODO: If Action = Leave, remove the player from the table
-			
-			//TODO: If Action = Sit or Leave, send the Table
-			//		back to the client
 			
 			//TODO: If Action = GameState, send HubGamePlay 
 			//		back to the client

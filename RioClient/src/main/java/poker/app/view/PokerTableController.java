@@ -1,6 +1,8 @@
 package poker.app.view;
 
 import java.net.URL;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javafx.animation.FadeTransition;
@@ -18,6 +20,7 @@ import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 import poker.app.MainApp;
 import pokerBase.Action;
+import pokerBase.Player;
 import pokerBase.Table;
 import pokerEnums.eAction;
 import pokerEnums.ePlayerPosition;
@@ -148,7 +151,56 @@ public class PokerTableController implements Initializable {
 		//TODO: run the 'getHashPlayers' method, iterate 
 		//		for all players and update the player label
 		//		and state of the sit/leave button.
-
+		Iterator it = HubPokerTable.getHashPlayers().entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry pair = (Map.Entry) it.next();
+			Player p = (Player)pair.getValue();
+			if (p.getiPlayerPosition()==1){
+				if(p.getPlayerID().equals(mainApp.getPlayer().getPlayerID())){
+					btnPos1SitLeave.setVisible(true);
+					btnPos2SitLeave.setVisible(false);
+					btnPos3SitLeave.setVisible(false);
+					btnPos4SitLeave.setVisible(false);
+				}else{
+					btnPos1SitLeave.setVisible(false);
+				}
+				lblPos1Name.setText(p.getPlayerName().toString());
+			}
+			else if (p.getiPlayerPosition()==2){
+					if(p.getPlayerID().equals(mainApp.getPlayer().getPlayerID())){
+						btnPos1SitLeave.setVisible(false);
+						btnPos2SitLeave.setVisible(true);
+						btnPos3SitLeave.setVisible(false);
+						btnPos4SitLeave.setVisible(false);
+					}else{
+						btnPos2SitLeave.setVisible(false);
+					}
+					lblPos2Name.setText(p.getPlayerName().toString());
+				
+			}
+			if (p.getiPlayerPosition()==3){
+				if(p.getPlayerID().equals(mainApp.getPlayer().getPlayerID())){
+					btnPos1SitLeave.setVisible(false);
+					btnPos2SitLeave.setVisible(false);
+					btnPos3SitLeave.setVisible(true);
+					btnPos4SitLeave.setVisible(false);
+				}else{
+					btnPos3SitLeave.setVisible(false);
+				}
+				lblPos3Name.setText(p.getPlayerName().toString());
+			}
+			else if (p.getiPlayerPosition()==4){
+					if(p.getPlayerID().equals(mainApp.getPlayer().getPlayerID())){
+						btnPos1SitLeave.setVisible(false);
+						btnPos2SitLeave.setVisible(false);
+						btnPos3SitLeave.setVisible(false);
+						btnPos4SitLeave.setVisible(true);
+					}else{
+						btnPos4SitLeave.setVisible(false);
+					}
+					lblPos4Name.setText(p.getPlayerName().toString());
+			}
+		}
 		//		Example: Joe sits at Position 1
 		//		Joe should see the 'Sit' button in position 1 in the
 		//		'pressed in' state, and with 
